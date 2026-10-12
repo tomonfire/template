@@ -34,7 +34,8 @@ Das Skript erledigt Folgendes:
 2. Es aktiviert die automatische Prüfung „Test“ auf GitHub.
 3. Es ergänzt `.gitignore` und Dependabot (hält die Bausteine automatisch aktuell).
 4. Es trägt die Wahl in `AGENTS.md` ein, damit KI-Assistenten Bescheid wissen.
-5. Es entfernt die anderen Stacks aus dem Projekt. In diesem Template bleiben sie erhalten.
+5. Es ersetzt die Template-Texte (README, Projektbeschreibung, Versionshistorie) durch leere Vorlagen für dein Projekt.
+6. Es entfernt die anderen Stacks aus dem Projekt. In diesem Template bleiben sie erhalten.
 
 ## Was jeder Stack enthält
 
