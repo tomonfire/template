@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.4](https://github.com/tomonfire/template/compare/v1.0.3...v1.0.4) (2026-10-12)
+
+
+### Bug Fixes
+
+* new projects no longer inherit template texts; tidy up template ([#13](https://github.com/tomonfire/template/issues/13)) ([c813628](https://github.com/tomonfire/template/commit/c8136283bd76951a854287aa354b3397c66f16ac))
+
+
+### Documentation
+
+* add QUICKSTART guide and fix setup order in README ([#11](https://github.com/tomonfire/template/issues/11)) ([e30b966](https://github.com/tomonfire/template/commit/e30b966e3a2b1ac7639e201b5810e84dd33198b1))
+
 ## [1.0.3](https://github.com/tomonfire/template/compare/v1.0.2...v1.0.3) (2026-10-12)
 
 
