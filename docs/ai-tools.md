@@ -25,6 +25,9 @@ Voraussetzung für alle MCP-Varianten:
 uv tool install "graphifyy[mcp]"   # liefert die Befehle graphify und graphify-mcp
 ```
 
+Claude Code und Codex starten den Server über `scripts/graphify-mcp.sh`. Ist graphify noch nicht
+installiert, läuft er automatisch über `uvx`.
+
 Ein Graph muss existieren: einmal `/graphify .` in Claude Code oder Codex ausführen
 (ohne LLM, nur Code: `graphify update .`).
 
