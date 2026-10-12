@@ -9,7 +9,7 @@ Sicherheitsupdates gibt es für den jeweils aktuellen Stand von `main` bzw. das 
 Bitte **keine öffentlichen Issues** für Sicherheitslücken eröffnen.
 
 Melde Schwachstellen vertraulich über
-[GitHub Private Vulnerability Reporting](../../security/advisories/new)
+[GitHub Private Vulnerability Reporting](../../../security/advisories/new)
 (*Security → Report a vulnerability*).
 
 Bitte angeben:

@@ -53,7 +53,8 @@ Vorschau/Staging/Produktion, Sicherheit und Labels. GitHub kopiert sie beim Temp
 
 ## 4. Aufräumen (1 Minute)
 
-- `AGENTS.md` öffnen und unter **Projekt** in 2–3 Sätzen beschreiben, worum es geht.
+- `README.md` und `AGENTS.md` (Abschnitt **Projekt**) in 2–3 Sätzen ausfüllen: Worum geht es, für wen?
+- Kurzbeschreibung bei GitHub: Repo-Seite → rechts bei **About** auf ⚙️ klicken.
 - Den Codespace löschen: <https://github.com/codespaces>, dort **⋯** und dann **Delete**.
 
 **Fertig.** Ab jetzt arbeitest du nur noch so wie unten beschrieben.
@@ -99,5 +100,18 @@ Idee ──► /team ──► Pull Request ──► Vorschau ansehen ──►
 | Release-PR lässt sich nicht mergen              | Haken bei „bypass rules“ setzen (siehe Schritt 4 im Alltag)                             |
 | Eine Prüfung im Pull Request ist rot            | Claude bitten: „Die Prüfung im PR ist rot, bitte beheben.“                              |
 | Alte Version zurückholen                        | *Actions → Deploy production → Run workflow*, ältere Version eintragen (z. B. `v1.2.0`) |
+
+## Begriffe kurz erklärt
+
+| Begriff          | Bedeutung                                                                          |
+| ---------------- | ---------------------------------------------------------------------------------- |
+| **Repository**   | Projektordner auf GitHub mit kompletter Änderungshistorie                          |
+| **Branch**       | Arbeitskopie für eine Änderung, ohne den Hauptstand zu stören                      |
+| **Pull Request** | Vorschlag, eine Änderung zu übernehmen, inklusive Prüfung und Vorschau             |
+| **Merge**        | Änderung in den Hauptstand (`main`) übernehmen                                     |
+| **CI**           | automatische Prüfungen bei jeder Änderung                                          |
+| **Release**      | neue, nummerierte Version (z. B. `v1.2.0`), die live geht                          |
+| **Stack**        | gewählte Programmiersprache mit ihren Werkzeugen                                   |
+| **Token**        | Abrechnungseinheit der KI; weniger Text bedeutet weniger Kosten                    |
 
 Mehr Details: [README](README.md) · [Sprachen wählen](docs/stacks.md) · [Vorschau → Live](docs/environments.md) · [KI-Assistenten](docs/ai-tools.md)

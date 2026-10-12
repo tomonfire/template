@@ -82,19 +82,56 @@ sed -i.bak "s|^Stack: .*|Stack: **$TITLE** (gewählt mit \`./scripts/init-stack.
 printf '{\n  ".": "0.0.0"\n}\n' > .release-please-manifest.json
 printf '# Changelog\n' > CHANGELOG.md
 
-# 8. Remove the other presets (they are still in the template repo)
+# 8. Turn the template copy into this project (texts that describe the template itself)
+name="$(basename "$PWD")"
+cat > README.md <<README
+# $name
+
+<!-- In 1–2 Sätzen: Was ist das, für wen, welches Problem löst es? -->
+
+## Schnellstart
+
+\`\`\`bash
+make setup   # Abhängigkeiten installieren
+make dev     # lokal starten → http://localhost:8080
+make help    # alle Befehle
+\`\`\`
+
+## Mehr
+
+- Arbeitsablauf und Hilfe: [QUICKSTART.md](QUICKSTART.md)
+- Regeln für KI-Assistenten: [AGENTS.md](AGENTS.md)
+- Vorschau, Staging, Produktion: [docs/environments.md](docs/environments.md)
+
+Stack: $TITLE · erstellt aus [tomonfire/template](https://github.com/tomonfire/template)
+README
+python3 - <<'PY'
+import json, pathlib, re
+agents = pathlib.Path("AGENTS.md")
+text = agents.read_text()
+text = re.sub(r"(## Projekt\n\n).*?(\n## )",
+              r"\1<!-- TODO: In 2–3 Sätzen: Was macht das Projekt, für wen? -->\n\2",
+              text, count=1, flags=re.S)
+agents.write_text(text)
+about = pathlib.Path(".github/about.json")
+about.write_text(json.dumps({"description": "", "homepage": "", "topics": []}, indent=2) + "\n")
+PY
+rm -rf docs/assets
+
+# 9. Remove the other presets (they are still in the template repo)
 if [ "$KEEP" = false ]; then
   rm -rf "$STACKS_DIR"
 fi
 
 cat <<MSG
 
-Done. Next steps:
+Done. Next steps (details: QUICKSTART.md):
   make help      # all commands
   make setup     # install dependencies
   make dev       # start locally → http://localhost:8080
   make ci        # what CI checks before a merge
 
-Commit the result:  git add -A && git commit -m "feat: set up $STACK stack"
-Afterwards run ./scripts/setup-github.sh again so the "Test" check becomes required on GitHub.
+Then save and set up GitHub (in this order):
+  git add -A && git commit -m "feat: set up $STACK stack" && git push
+  ./scripts/setup-github.sh
 MSG
