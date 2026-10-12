@@ -57,7 +57,6 @@ Abläufen, und ich muss nichts davon jedes Mal neu zusammensuchen.
 - [ ] **`.github/about.json`:** Kurzbeschreibung und Stichworte (Topics) für GitHub
 - [ ] **`AGENTS.md`:** Abschnitt *Projekt* ausfüllen (2–3 Sätze: was, für wen)
 - [ ] Stack gewählt (`./scripts/init-stack.sh …`) und `./scripts/setup-github.sh` ausgeführt
-- [ ] **`CHANGELOG.md`** und **`.release-please-manifest.json`** (`0.0.0`) zurücksetzen
 - [ ] Social-Preview-Bild hochladen (*Settings → General → Social preview*)
 - [ ] Sobald Code existiert: `/graphify .` in Claude Code und `graphify-out/` committen
 

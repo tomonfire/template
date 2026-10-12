@@ -34,6 +34,9 @@ Jede Änderung durchläuft drei Stufen, bevor die Öffentlichkeit sie sieht. All
 3. **Mergen**, wenn alles passt. Die Änderung landet in **Staging**.
 4. **Release:** GitHub hält automatisch einen „Release-PR“ bereit, der alle Änderungen seit der letzten
    Version sammelt. Mergst du ihn, entsteht eine neue Version.
+   Beim Release-PR laufen keine Prüfungen (GitHub startet sie bei automatisch erstellten PRs nicht).
+   Das ist in Ordnung, weil er nur Versionsnummer und Changelog ändert. Zum Mergen setzt du den Haken
+   **„Merge without waiting for requirements to be met (bypass rules)“**.
 5. **Freigabe:** Bevor die Version in **Produktion** geht, fragt GitHub nach deiner Bestätigung
    (*Actions → Deploy production → Review deployments → Approve*).
 

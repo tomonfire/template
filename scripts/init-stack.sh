@@ -78,7 +78,11 @@ PY
 # 6. Record the choice for humans and AI agents
 sed -i.bak "s|^Stack: .*|Stack: **$TITLE** (gewählt mit \`./scripts/init-stack.sh $STACK\`)|" AGENTS.md && rm -f AGENTS.md.bak
 
-# 7. Remove the other presets (they are still in the template repo)
+# 7. Fresh version history: the new project starts at 0.1.0, not at the template's version
+printf '{\n  ".": "0.0.0"\n}\n' > .release-please-manifest.json
+printf '# Changelog\n' > CHANGELOG.md
+
+# 8. Remove the other presets (they are still in the template repo)
 if [ "$KEEP" = false ]; then
   rm -rf "$STACKS_DIR"
 fi
