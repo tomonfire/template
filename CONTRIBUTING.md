@@ -26,6 +26,11 @@ Das installiert die pre-commit-Hooks und, falls vorhanden, die graphify-Git-Hook
 5. Pull Request gegen `main` öffnen und die PR-Vorlage ausfüllen.
 6. Merge erst nach grüner CI und mindestens einem Review. Bevorzugt **Squash & Merge**.
 
+## Vorschau, Staging, Produktion
+
+Jeder Pull Request bekommt automatisch eine Vorschau (Link als PR-Kommentar). Nach dem Merge landet die
+Änderung in Staging, mit dem Release in Produktion (nach Freigabe). Details: [docs/environments.md](docs/environments.md).
+
 ## Code-Stil
 
 - Formatierung wird über `.editorconfig` und pre-commit erzwungen – nicht von Hand diskutieren.
