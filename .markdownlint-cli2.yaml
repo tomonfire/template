@@ -3,3 +3,4 @@ ignores:
   - ".claude/skills/graphify/**"
   - "CHANGELOG.md"
   - "node_modules/**"
+  - "ai-context/**"

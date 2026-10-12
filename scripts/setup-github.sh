@@ -5,7 +5,9 @@
 #   ./scripts/setup-github.sh                 # current repo
 #   ./scripts/setup-github.sh owner/repo
 #   TEMPLATE=true ./scripts/setup-github.sh   # also mark as template repository
-#   TOPICS="cli,python" ./scripts/setup-github.sh
+#
+# Description, homepage and topics come from .github/about.json (metadata as code);
+# override ad hoc with DESCRIPTION=… HOMEPAGE=… TOPICS="a,b,c".
 #
 # Requires: gh (authenticated, admin rights on the repo), jq.
 set -euo pipefail
@@ -16,7 +18,11 @@ command -v jq >/dev/null || { echo "jq is required" >&2; exit 1; }
 REPO="${1:-$(gh repo view --json nameWithOwner -q .nameWithOwner)}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TEMPLATE="${TEMPLATE:-false}"
-TOPICS="${TOPICS:-}"
+ABOUT="$ROOT/.github/about.json"
+about() { [ -f "$ABOUT" ] && jq -r "$1 // empty" "$ABOUT" || true; }
+DESCRIPTION="${DESCRIPTION:-$(about .description)}"
+HOMEPAGE="${HOMEPAGE:-$(about .homepage)}"
+TOPICS="${TOPICS:-$(about '.topics | join(",")')}"
 
 step() { printf '\n==> %s\n' "$*"; }
 try()  { "$@" >/dev/null 2>&1 || echo "    (skipped: not available for this repo/plan)"; }
@@ -36,7 +42,9 @@ gh api -X PATCH "repos/$REPO" --silent \
   -F delete_branch_on_merge=true \
   -f squash_merge_commit_title=PR_TITLE \
   -f squash_merge_commit_message=PR_BODY \
-  -F web_commit_signoff_required=false
+  -F web_commit_signoff_required=false \
+  -f description="$DESCRIPTION" \
+  -f homepage="$HOMEPAGE"
 
 step "Security: secret scanning + push protection"
 try gh api -X PATCH "repos/$REPO" --silent --input - <<'JSON'
@@ -85,5 +93,12 @@ else
   echo "    yq not found – labels will be synced by the 'Sync labels' workflow on the next push to main"
   echo "    (or run it manually: gh workflow run labels.yml --repo $REPO)"
 fi
+
+cat <<NOTE
+
+==> Manual steps (no API available)
+    - Social preview: Settings → General → Social preview → upload docs/assets/social-preview.png
+    - Pin the repo on your profile if it is a showcase
+NOTE
 
 printf '\nDone. Review the result at https://github.com/%s/settings\n' "$REPO"

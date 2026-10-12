@@ -19,7 +19,7 @@ if install_tool pre-commit pre-commit; then
 fi
 
 echo "==> graphify"
-if install_tool graphify graphifyy; then
+if install_tool graphify "graphifyy[mcp]"; then
   # Rebuild graph after commits/checkouts and register the graph.json merge driver.
   graphify hook install || true
 fi

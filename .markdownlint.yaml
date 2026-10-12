@@ -2,6 +2,6 @@
 default: true
 MD013: false          # line length – prose is wrapped by editors
 MD033:                # inline HTML
-  allowed_elements: [details, summary, br, img, a, sub, sup]
+  allowed_elements: [details, summary, br, img, a, sub, sup, p, h1, strong, code, picture, source]
 MD041: false          # first line heading – not true for templates/PR bodies
 MD060: false          # table pipe alignment – too noisy for hand-written tables

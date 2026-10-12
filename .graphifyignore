@@ -4,3 +4,5 @@ CHANGELOG.md
 LICENSE
 .claude/skills/
 .github/ISSUE_TEMPLATE/
+docs/assets/
+.agents/

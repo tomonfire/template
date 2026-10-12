@@ -54,3 +54,7 @@ graphify-out/cache/
 graphify-out/memory/
 graphify-out/converted/
 graphify-out/manifest.json
+
+# --- AI context export (scripts/export-ai-context.sh) ---
+ai-context/
+ai-context.zip
