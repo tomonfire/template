@@ -1,9 +1,9 @@
 # Project-scoped Codex configuration (loaded when the project is trusted).
 # Exposes the graphify knowledge graph as MCP tools (query_graph, get_node,
 # get_neighbors, shortest_path, god_nodes, ...).
-# Requires: uv tool install "graphifyy[mcp]"   (provides the `graphify-mcp` command)
+# Uses the installed graphify-mcp, or runs it via uvx if graphify is not installed yet.
 
 [mcp_servers.graphify]
-command = "graphify-mcp"
-args = ["graphify-out/graph.json"]
+command = "./scripts/graphify-mcp.sh"
+args = []
 startup_timeout_sec = 20
