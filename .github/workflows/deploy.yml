@@ -43,9 +43,9 @@ jobs:
       - name: What is there to deploy?
         id: what
         run: |
-          grep -qE '^site:' Makefile 2>/dev/null && echo "site=true" >> "$GITHUB_OUTPUT" || true
-          [ -f Dockerfile ] && echo "image=true" >> "$GITHUB_OUTPUT" || true
-          [ -f package.json ] && echo "node=true" >> "$GITHUB_OUTPUT" || true
+          if grep -qE '^site:' Makefile 2>/dev/null; then echo "site=true" >> "$GITHUB_OUTPUT"; fi
+          if [ -f Dockerfile ]; then echo "image=true" >> "$GITHUB_OUTPUT"; fi
+          if [ -f package.json ]; then echo "node=true" >> "$GITHUB_OUTPUT"; fi
 
       # --- Website → GitHub Pages ---
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
