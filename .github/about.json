@@ -1,0 +1,26 @@
+{
+  "description": "My personal template for all my development projects: 6 language presets, PR previews → staging → production on GitHub, automated releases, security defaults and an AI team (Claude, ChatGPT/Codex, Perplexity).",
+  "homepage": "",
+  "topics": [
+    "personal-template",
+    "template",
+    "repository-template",
+    "github-template",
+    "project-template",
+    "preview-environments",
+    "github-pages",
+    "best-practices",
+    "github-actions",
+    "conventional-commits",
+    "release-please",
+    "pre-commit",
+    "devsecops",
+    "ai-agents",
+    "claude-code",
+    "codex",
+    "chatgpt",
+    "perplexity",
+    "mcp",
+    "graphify"
+  ]
+}

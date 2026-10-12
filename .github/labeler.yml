@@ -1,0 +1,10 @@
+# Auto-label PRs by changed paths (actions/labeler v5 syntax).
+"type: docs":
+  - changed-files:
+      - any-glob-to-any-file: ["**/*.md", "docs/**"]
+"type: ci":
+  - changed-files:
+      - any-glob-to-any-file: [".github/**", ".pre-commit-config.yaml"]
+"area: ai-tooling":
+  - changed-files:
+      - any-glob-to-any-file: [".claude/**", "CLAUDE.md", "AGENTS.md", "graphify-out/**", ".graphifyignore"]

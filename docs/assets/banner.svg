@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="t d">
+  <title id="t">Project Template</title>
+  <desc id="d">GitHub repository template with CI, releases, security defaults and AI-agent setup.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1117"/>
+      <stop offset="1" stop-color="#161b33"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7c5cff"/>
+      <stop offset="1" stop-color="#2ec5ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="640" fill="url(#bg)"/>
+  <!-- knowledge-graph motif -->
+  <g stroke="#2f3b66" stroke-width="2" fill="none" opacity="0.9">
+    <path d="M940 150 L1060 230 L1150 140 M1060 230 L1040 360 L1160 420 M1040 360 L920 430 L960 540 M920 430 L860 300 L940 150 M1160 420 L1120 540"/>
+  </g>
+  <g fill="#2ec5ff">
+    <circle cx="1060" cy="230" r="14"/>
+    <circle cx="1040" cy="360" r="18" fill="#7c5cff"/>
+  </g>
+  <g fill="#3b4a80">
+    <circle cx="940" cy="150" r="9"/><circle cx="1150" cy="140" r="9"/><circle cx="1160" cy="420" r="10"/>
+    <circle cx="920" cy="430" r="10"/><circle cx="960" cy="540" r="8"/><circle cx="860" cy="300" r="9"/>
+    <circle cx="1120" cy="540" r="8"/>
+  </g>
+  <g font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+    <rect x="96" y="150" width="88" height="8" rx="4" fill="url(#accent)"/>
+    <text x="96" y="262" font-size="84" font-weight="700" fill="#f0f6fc">Project Template</text>
+    <text x="96" y="322" font-size="30" fill="#9da7b3">My starting point for every project.</text>
+    <text x="96" y="420" font-size="24" fill="#c9d1d9">CI · SemVer Releases · Rulesets · Security · Labels</text>
+    <text x="96" y="462" font-size="24" fill="#c9d1d9">AI-ready: Claude · ChatGPT/Codex · Perplexity</text>
+    <text x="96" y="504" font-size="24" fill="#c9d1d9">Knowledge graph via <tspan fill="#2ec5ff" font-weight="600">/graphify</tspan></text>
+  </g>
+</svg>

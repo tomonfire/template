@@ -1,0 +1,6 @@
+ignores:
+  - "graphify-out/**"
+  - ".claude/skills/graphify/**"
+  - "CHANGELOG.md"
+  - "node_modules/**"
+  - "ai-context/**"

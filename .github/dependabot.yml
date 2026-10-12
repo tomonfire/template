@@ -1,0 +1,19 @@
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    labels: ["type: dependencies", "type: ci"]
+    commit-message:
+      prefix: "ci"
+    groups:
+      actions:
+        patterns: ["*"]
+  # Add further ecosystems per project, e.g.:
+  # - package-ecosystem: npm   # or pip, gomod, cargo, docker, ...
+  #   directory: /
+  #   schedule: { interval: weekly }
+  #   labels: ["type: dependencies"]
+  #   commit-message: { prefix: "chore(deps)" }

@@ -1,0 +1,9 @@
+# Paths graphify should skip when building the knowledge graph (gitignore syntax).
+# .gitignore is honoured automatically; add extra exclusions here.
+CHANGELOG.md
+LICENSE
+.claude/skills/
+.github/ISSUE_TEMPLATE/
+docs/assets/
+.agents/
+stacks/

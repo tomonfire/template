@@ -1,0 +1,25 @@
+# Normalize line endings; let Git decide what is text.
+* text=auto eol=lf
+
+# Windows scripts need CRLF
+*.bat  text eol=crlf
+*.cmd  text eol=crlf
+*.ps1  text eol=crlf
+
+# Binary files
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.webp binary
+*.pdf  binary
+*.zip  binary
+*.gz   binary
+*.woff binary
+*.woff2 binary
+
+# graphify: generated graph; union-merge it (driver registered by `graphify hook install`)
+# and hide it from diffs/language stats on GitHub.
+graphify-out/graph.json merge=graphify linguist-generated=true -diff
+graphify-out/** linguist-generated=true
