@@ -1,0 +1,70 @@
+name: Deploy production
+
+# Rolls out a release to production: website → …github.io/<repo>/, server image → ghcr.io/<repo>:vX.Y.Z + :latest
+# Called by the Release workflow when a release PR is merged.
+# Run it by hand with an older tag (e.g. v1.2.0) to roll back.
+on:
+  workflow_call:
+    inputs:
+      tag:
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to deploy, e.g. v1.2.3
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  production:
+    name: Deploy production
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: production
+      url: ${{ steps.pages.outputs.url }}
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.tag }}
+          persist-credentials: false
+      - name: What is there to deploy?
+        id: what
+        run: |
+          grep -qE '^site:' Makefile 2>/dev/null && echo "site=true" >> "$GITHUB_OUTPUT" || true
+          [ -f Dockerfile ] && echo "image=true" >> "$GITHUB_OUTPUT" || true
+          [ -f package.json ] && echo "node=true" >> "$GITHUB_OUTPUT" || true
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        if: steps.what.outputs.site == 'true' && steps.what.outputs.node == 'true'
+        with:
+          node-version: 22
+          cache: npm
+      - name: Build and publish website
+        id: pages
+        if: steps.what.outputs.site == 'true'
+        run: make setup site && ./scripts/publish-pages.sh production site
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PAGES_URL: ${{ vars.PAGES_URL }}
+      - name: Build and push server image
+        if: steps.what.outputs.image == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          image="ghcr.io/${GITHUB_REPOSITORY,,}"
+          echo "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          docker build -t "$image:$TAG" -t "$image:latest" .
+          docker push "$image:$TAG" && docker push "$image:latest"
+          echo "🚀 Server image: \`$image:$TAG\`" >> "$GITHUB_STEP_SUMMARY"

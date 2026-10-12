@@ -1,0 +1,113 @@
+name: Deploy
+
+# Free hosting on GitHub, three stages:
+#   Pull request → preview    website: …github.io/<repo>/pr-<n>/   server image: ghcr.io/<repo>:pr-<n>
+#   Push to main → staging    website: …github.io/<repo>/staging/  server image: ghcr.io/<repo>:main
+#   Release      → production (see deploy-production.yml)
+# Website = stack with a "make site" target (e.g. web). Server = stack with a Dockerfile.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ github.event.pull_request.number || 'staging' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  deploy:
+    name: Deploy ${{ github.event_name == 'pull_request' && 'preview' || 'staging' }}
+    # Skip closed PRs (handled below) and PRs from forks (no write access).
+    if: >-
+      github.event.action != 'closed' &&
+      (github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: ${{ github.event_name == 'pull_request' && 'preview' || 'staging' }}
+      url: ${{ steps.pages.outputs.url }}
+    permissions:
+      contents: write        # publish to the gh-pages branch
+      packages: write        # push the server image to ghcr.io
+      pull-requests: write   # comment the preview link
+    env:
+      STAGE: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || 'staging' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: What is there to deploy?
+        id: what
+        run: |
+          grep -qE '^site:' Makefile 2>/dev/null && echo "site=true" >> "$GITHUB_OUTPUT" || true
+          [ -f Dockerfile ] && echo "image=true" >> "$GITHUB_OUTPUT" || true
+          [ -f package.json ] && echo "node=true" >> "$GITHUB_OUTPUT" || true
+
+      # --- Website → GitHub Pages ---
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        if: steps.what.outputs.site == 'true' && steps.what.outputs.node == 'true'
+        with:
+          node-version: 22
+          cache: npm
+      - name: Build website
+        if: steps.what.outputs.site == 'true'
+        run: make setup site
+      - name: Publish website
+        id: pages
+        if: steps.what.outputs.site == 'true'
+        run: ./scripts/publish-pages.sh "$STAGE" site
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PAGES_URL: ${{ vars.PAGES_URL }}
+
+      # --- Server → container image, started once as a smoke test ---
+      - name: Build, push and start server image
+        id: image
+        if: steps.what.outputs.image == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || 'main' }}
+        run: |
+          image="ghcr.io/${GITHUB_REPOSITORY,,}:$TAG"
+          echo "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          docker build -t "$image" .
+          docker run -d --name app -p 8080:8080 "$image"
+          for _ in $(seq 1 30); do curl -fs localhost:8080/healthz && break; sleep 2; done
+          curl -fs localhost:8080/healthz || { docker logs app; exit 1; }
+          docker push "$image"
+          echo "image=$image" >> "$GITHUB_OUTPUT"
+
+      - name: Summary and PR comment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+          URL: ${{ steps.pages.outputs.url }}
+          IMAGE: ${{ steps.image.outputs.image }}
+        run: |
+          body="### 🔍 ${STAGE/pr-/Vorschau PR #}"
+          [ -n "$URL" ] && body+=$'\n'"- Webseite: $URL"
+          [ -n "$IMAGE" ] && body+=$'\n'"- Server lokal starten: \`docker run --rm -p 8080:8080 $IMAGE\` → http://localhost:8080"
+          [ -z "$URL$IMAGE" ] && body+=$'\n'"Noch nichts zu veröffentlichen – Stack wählen mit \`./scripts/init-stack.sh\`."
+          echo "$body" >> "$GITHUB_STEP_SUMMARY"
+          if [ -n "$PR" ]; then
+            gh pr comment "$PR" --edit-last --body "$body" 2>/dev/null || gh pr comment "$PR" --body "$body"
+          fi
+
+  cleanup:
+    name: Remove preview
+    if: github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: ./scripts/publish-pages.sh --remove "pr-${{ github.event.pull_request.number }}"
+        env:
+          GH_TOKEN: ${{ github.token }}

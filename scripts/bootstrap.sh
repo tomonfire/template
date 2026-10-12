@@ -31,6 +31,7 @@ fi
 
 echo
 echo "Done. Next steps:"
-echo "  - fill in CLAUDE.md (Projekt, Befehle)"
+echo "  - choose a language: ./scripts/init-stack.sh list"
+echo "  - fill in AGENTS.md (section Projekt)"
 echo "  - apply GitHub settings: ./scripts/setup-github.sh   (needs gh)"
 echo "  - once code exists: run '/graphify .' in Claude Code and commit graphify-out/"

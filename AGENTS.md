@@ -13,14 +13,21 @@ gültig, stack-neutral und gut begründet sein (größere Entscheidungen als ADR
 
 ## Befehle
 
-<!-- TODO: an den Stack anpassen -->
+Stack: _noch nicht gewählt_ (`./scripts/init-stack.sh list`)
 
-| Zweck           | Befehl                          |
-| --------------- | ------------------------------- |
-| Setup           | `./scripts/bootstrap.sh`        |
-| Lint / Format   | `pre-commit run --all-files`    |
-| Tests           | _tbd_                           |
-| Build           | _tbd_                           |
+Jeder Stack hat dieselben Befehle, egal welche Programmiersprache:
+
+| Zweck                          | Befehl                       |
+| ------------------------------ | ---------------------------- |
+| Alle Befehle anzeigen          | `make help`                  |
+| Abhängigkeiten installieren    | `make setup`                 |
+| Lokal starten (Port 8080)      | `make dev`                   |
+| Prüfen (Lint, Format, Typen)   | `make lint`                  |
+| Tests                          | `make test`                  |
+| Bauen                          | `make build`                 |
+| Alles wie in der CI            | `make ci`                    |
+| Container bauen / starten      | `make docker-build` / `make docker-run` |
+| Repo-weite Checks              | `pre-commit run --all-files` |
 
 ## Konventionen
 
@@ -32,6 +39,20 @@ gültig, stack-neutral und gut begründet sein (größere Entscheidungen als ADR
 - Nie direkt auf `main` committen: Branch + PR (Squash-Merge, PR-Titel = Commit-Message).
 - Code, Bezeichner und Commit-Messages auf Englisch; Doku darf Deutsch sein.
 
+## Arbeitsweise & Token-Sparen
+
+- **Erst klären, dann bauen:** Neue Features beginnen mit einer Spezifikation in `docs/requirements/`
+  (Claude Code: Agent `anforderungen` bzw. `/team`). Gebaut wird nur, was in den Akzeptanzkriterien steht.
+- **Gezielt lesen:** zuerst `graphify query`, dann einzelne Dateien – kein flächiges Lesen/Greppen.
+- **Knapp antworten:** Ergebnisse in wenigen Zeilen; Pfade nennen statt Inhalte wiederholen.
+- **Einfach halten:** keine spekulativen Erweiterungen, keine neuen Abhängigkeiten ohne Grund.
+
+## Stufen
+
+Pull Request → **Vorschau**, `main` → **Staging**, Release → **Produktion** (mit Freigabe).
+Hosting kostenlos auf GitHub (Pages + Container Registry), Details: `docs/environments.md`.
+Repos aus diesem Template sind **öffentlich** (Voraussetzung für die kostenlosen GitHub-Funktionen).
+
 ## Struktur
 
 ```text
@@ -39,7 +60,8 @@ gültig, stack-neutral und gut begründet sein (größere Entscheidungen als ADR
 .agents/skills/   Skills für Codex & andere Agenten (Symlink auf .claude/skills/graphify)
 .codex/           Codex-Projektkonfiguration (graphify-MCP-Server)
 .github/          CI-Workflows, Issue-/PR-Templates, Dependabot, CODEOWNERS
-docs/             Projektdokumentation, ADRs, docs/ai-tools.md (Claude, ChatGPT, Perplexity)
+docs/             Doku: ADRs, Anforderungen, Stacks, Stufen, KI-Tools
+stacks/           Sprach-Vorlagen (nur im Template; init-stack.sh übernimmt eine davon)
 scripts/          Hilfsskripte (z. B. bootstrap.sh)
 graphify-out/     Knowledge Graph des Codes (wird von graphify erzeugt)
 ```

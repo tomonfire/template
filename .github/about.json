@@ -1,5 +1,5 @@
 {
-  "description": "My personal repo template for all my development projects: CI, automated SemVer releases, rulesets, security defaults and AI setup for Claude, ChatGPT/Codex & Perplexity with a graphify knowledge graph.",
+  "description": "My personal template for all my development projects: 6 language presets, PR previews → staging → production on GitHub, automated releases, security defaults and an AI team (Claude, ChatGPT/Codex, Perplexity).",
   "homepage": "",
   "topics": [
     "personal-template",
@@ -7,6 +7,8 @@
     "repository-template",
     "github-template",
     "project-template",
+    "preview-environments",
+    "github-pages",
     "best-practices",
     "github-actions",
     "conventional-commits",
@@ -19,7 +21,6 @@
     "chatgpt",
     "perplexity",
     "mcp",
-    "graphify",
-    "knowledge-graph"
+    "graphify"
   ]
 }

@@ -9,7 +9,7 @@ indent_size = 2
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[*.{py,rs,java,kt,cs}]
+[*.{py,rs,kt,cs}]
 indent_size = 4
 
 [*.go]

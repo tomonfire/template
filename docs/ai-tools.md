@@ -16,7 +16,6 @@ Das Projektwissen steckt an drei Stellen. Jeder Assistent nutzt davon, was er te
 | **Claude.ai Projects**          | Dateien hochladen                                | `./scripts/export-ai-context.sh`                                  |
 | **OpenAI Codex** (CLI/IDE/App)  | `AGENTS.md` + Skill `.agents/skills/graphify` + MCP | automatisch (`.codex/config.toml`, Projekt als *trusted* markieren) |
 | **ChatGPT Projects**            | Dateien hochladen                                | `./scripts/export-ai-context.sh`                                  |
-| **ChatGPT Connector**           | MCP über HTTPS (Developer Mode)                  | fortgeschritten, siehe unten                                      |
 | **Perplexity für Mac**          | MCP (lokal, stdio)                               | `./scripts/mcp-config.sh perplexity`                              |
 | **Perplexity Spaces**           | Dateien hochladen                                | `./scripts/export-ai-context.sh`                                  |
 
@@ -48,18 +47,18 @@ Ein Graph muss existieren: einmal `/graphify .` in Claude Code oder Codex ausfü
   `/graphify .` bzw. `$graphify` funktioniert wie in Claude Code.
 - **ChatGPT Projects (Web/Desktop):** `./scripts/export-ai-context.sh --zip` ausführen und die
   Dateien aus `ai-context/` dem Projekt hinzufügen. `00-START-HERE.md` erklärt dem Modell die Struktur.
-- **ChatGPT Custom Connector (fortgeschritten):** ChatGPT bindet nur **öffentlich erreichbare
-  HTTPS-MCP-Server** ein (*Settings → Apps & Connectors → Advanced → Developer mode*).
-  `./scripts/mcp-config.sh chatgpt` zeigt den Startbefehl für den HTTP-Transport
-  (`graphify-mcp … --transport http`). Den Endpoint stellst du über einen HTTPS-Tunnel bereit.
-  Ein öffentlicher Endpoint gibt deinen Code-Graphen preis. Nutze ihn nur mit Authentifizierung
-  und beende den Tunnel nach Gebrauch. Für private Repos ist der Upload-Weg meist die bessere Wahl.
+- **ChatGPT Connector:** ChatGPT kann nur Online-Server anbinden, nicht lokale. Für dieses Template ist das
+  bewusst nicht vorgesehen (Aufwand, Sicherheit). Nutze stattdessen Projects oder Codex.
 
 ## Perplexity
 
 - **Perplexity für Mac:** unterstützt lokale MCP-Server über den Helper *PerplexityXPC*.
   Wähle *Settings → Connectors → Add Connector → Advanced* und füge den JSON-Block aus
   `./scripts/mcp-config.sh perplexity` ein. Danach den Connector in der Suche aktivieren.
+- **Perplexity im KI-Team (optional, kostenpflichtige API):** Der Agent `anforderungen` nutzt Perplexity
+  für Recherchen mit Quellen, sobald es in Claude Code verbunden ist:
+  `claude mcp add perplexity --env PERPLEXITY_API_KEY=<key> -- npx -y @perplexity-ai/mcp-server`
+  Ohne diese Verbindung nutzt er die eingebaute Websuche von Claude, die kostenlos im Abo enthalten ist.
 - **Perplexity Spaces:** `./scripts/export-ai-context.sh` ausführen und die Dateien als
   Space-Dateien hochladen. Perplexity kombiniert sie dann mit der Websuche, z. B. für
   „Welche Bibliothek passt zu unserer Architektur?“.

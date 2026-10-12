@@ -27,6 +27,16 @@ TOPICS="${TOPICS:-$(about '.topics | join(",")')}"
 step() { printf '\n==> %s\n' "$*"; }
 try()  { "$@" >/dev/null 2>&1 || echo "    (skipped: not available for this repo/plan)"; }
 
+step "Visibility"
+if [ "$(gh api "repos/$REPO" -q .visibility)" != "public" ]; then
+  echo "    ⚠️  $REPO is not public. Free GitHub features this template relies on"
+  echo "       (rulesets, environments with approval, GitHub Pages, free Actions minutes)"
+  echo "       need a PUBLIC repository on the free plan. Change it under"
+  echo "       Settings → General → Danger Zone → Change visibility."
+else
+  echo "    public ✔"
+fi
+
 step "Repository settings for $REPO"
 gh api -X PATCH "repos/$REPO" --silent \
   -F is_template="$TEMPLATE" \
@@ -66,6 +76,25 @@ if [ -n "$TOPICS" ]; then
   jq -n --arg t "$TOPICS" '{names: ($t | split(",") | map(gsub("^\\s+|\\s+$"; "")))}' \
     | gh api -X PUT "repos/$REPO/topics" --silent --input -
 fi
+
+step "GitHub Pages (website hosting from branch gh-pages)"
+if ! gh api "repos/$REPO/branches/gh-pages" --silent 2>/dev/null; then
+  # Create an empty gh-pages branch so Pages can be switched on right away.
+  empty_tree="$(gh api -X POST "repos/$REPO/git/trees" -f 'tree[][path]=.nojekyll' -f 'tree[][mode]=100644' -f 'tree[][type]=blob' -f 'tree[][content]=' -q .sha)"
+  commit="$(gh api -X POST "repos/$REPO/git/commits" -f message="chore: init gh-pages" -f tree="$empty_tree" -q .sha)"
+  gh api -X POST "repos/$REPO/git/refs" -f ref=refs/heads/gh-pages -f sha="$commit" --silent
+fi
+gh api -X POST "repos/$REPO/pages" -f 'source[branch]=gh-pages' -f 'source[path]=/' --silent 2>/dev/null \
+  || gh api -X PUT "repos/$REPO/pages" -f 'source[branch]=gh-pages' -f 'source[path]=/' --silent 2>/dev/null \
+  || echo "    (skipped: Pages not available – is the repository public?)"
+
+step "Environments: preview, staging, production (production needs your approval)"
+me="$(gh api user -q .id)"
+try gh api -X PUT "repos/$REPO/environments/preview"
+try gh api -X PUT "repos/$REPO/environments/staging"
+try gh api -X PUT "repos/$REPO/environments/production" --input - <<JSON
+{"reviewers":[{"type":"User","id":$me}],"prevent_self_review":false}
+JSON
 
 step "Rulesets from .github/rulesets/"
 existing="$(gh api "repos/$REPO/rulesets" --paginate)"

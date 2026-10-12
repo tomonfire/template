@@ -10,3 +10,6 @@ Wichtige, schwer umkehrbare Entscheidungen werden hier als ADR festgehalten
 | Nr.                                    | Titel                         | Status      |
 | -------------------------------------- | ----------------------------- | ----------- |
 | [0001](0001-record-decisions.md)       | Entscheidungen als ADR führen | Accepted    |
+| [0002](0002-stack-presets.md)          | Sprach-Vorlagen mit einheitlichen Befehlen | Accepted |
+| [0003](0003-github-hosting-stages.md)  | Vorschau, Staging, Produktion auf GitHub   | Accepted |
+| [0004](0004-ai-team.md)                | Virtuelles KI-Team                          | Accepted |

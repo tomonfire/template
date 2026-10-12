@@ -3,7 +3,7 @@
 # project, with absolute paths (desktop apps don't run in the project folder).
 #
 #   ./scripts/mcp-config.sh                 # all snippets
-#   ./scripts/mcp-config.sh claude-desktop  # only one: claude-desktop | perplexity | codex | chatgpt
+#   ./scripts/mcp-config.sh claude-desktop  # only one: claude-desktop | perplexity | codex
 #
 # Requires: uv tool install "graphifyy[mcp]"
 set -euo pipefail
@@ -66,15 +66,4 @@ if show codex; then
 command = "$BIN"
 args = ["$GRAPH"]
 TOML
-fi
-
-if show chatgpt; then
-  cat <<TXT
-
-### ChatGPT (web/desktop) – custom connectors need a public HTTPS MCP endpoint
-### (Settings → Apps & Connectors → Advanced → Developer mode). Advanced, see docs/ai-tools.md:
-GRAPHIFY_API_KEY=\$(openssl rand -hex 24) $BIN "$GRAPH" --transport http --port 8080
-# then expose http://127.0.0.1:8080/mcp via an HTTPS tunnel. Simpler alternative:
-./scripts/export-ai-context.sh   # and upload the files to a ChatGPT Project
-TXT
 fi

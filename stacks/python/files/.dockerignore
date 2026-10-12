@@ -1,0 +1,9 @@
+.venv
+dist
+.git
+**/__pycache__
+.pytest_cache
+.ruff_cache
+.mypy_cache
+graphify-out
+ai-context
