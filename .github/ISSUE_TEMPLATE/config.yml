@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Sicherheitslücke melden
+    url: https://github.com/tomonfire/template/security/advisories/new
+    about: Bitte Sicherheitsprobleme vertraulich melden, nicht als öffentliches Issue.
+  - name: Fragen & Ideen
+    url: https://github.com/tomonfire/template/discussions
+    about: Allgemeine Fragen bitte in den Discussions stellen.
