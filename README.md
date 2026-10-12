@@ -20,6 +20,8 @@
 
 ---
 
+> 🚀 **Neues Projekt starten? → [QUICKSTART.md](QUICKSTART.md)** (Schritt für Schritt, ca. 10 Minuten)
+
 ## Worum es geht
 
 Dieses Repository ist **meine eigene Vorlage**. Jedes Projekt, das ich starte, egal ob Webseite, App,
@@ -37,15 +39,15 @@ Abläufen, und ich muss nichts davon jedes Mal neu zusammensuchen.
 
 1. Oben auf **Use this template → Create a new repository** klicken und **Public** wählen.
    Nur öffentliche Repos bekommen alle Funktionen von GitHub kostenlos.
-2. Einmal lokal einrichten:
+2. Einmal einrichten (Reihenfolge wichtig: erst speichern, dann GitHub einrichten):
 
    ```bash
-   git clone git@github.com:<name>/<repo>.git && cd <repo>
-   ./scripts/bootstrap.sh            # Werkzeuge installieren
-   ./scripts/init-stack.sh list      # Programmiersprachen anzeigen
-   ./scripts/init-stack.sh web       # eine wählen (im Zweifel: python, für Webseiten: web)
+   ./scripts/init-stack.sh web       # Sprache wählen (Liste: ./scripts/init-stack.sh list)
+   git add -A && git commit -m "feat: set up project" && git push
    ./scripts/setup-github.sh         # GitHub einrichten: Schutzregeln, Pages, Stufen, Labels
    ```
+
+   Ausführlich mit allen Klicks, im Browser per Codespace: **[QUICKSTART.md](QUICKSTART.md)**.
 
 3. Loslegen, z. B. in Claude Code: `/team Ich möchte eine Seite, auf der …`
 
