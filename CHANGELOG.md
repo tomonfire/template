@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/tomonfire/template/compare/v1.0.2...v1.0.3) (2026-10-12)
+
+
+### Bug Fixes
+
+* start graphify MCP server via wrapper with uvx fallback ([#7](https://github.com/tomonfire/template/issues/7)) ([48d0e68](https://github.com/tomonfire/template/commit/48d0e68330230b0e26336800377cfc13c5e06a68))
+
 ## [1.0.2](https://github.com/tomonfire/template/compare/v1.0.1...v1.0.2) (2026-10-12)
 
 
